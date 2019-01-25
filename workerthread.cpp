@@ -3,15 +3,17 @@
 bool WorkerThread::isFinish = false;
 
 WorkerThread::WorkerThread(QColor **colorTab, int width, int height,
-                           int widthStart, int heightStart, int widthEnd,
-                           int heightEnd)
+                           int widthStart, int heightStart,
+                           int widthEnd, int heightEnd)
     : WorkerBase(), colorTab(colorTab), width(width), height(height),
       widthStart(widthStart), heightStart(heightStart), widthEnd(widthEnd),
       heightEnd(heightEnd) { }
 
 int WorkerThread::value(int x, int y) {
-    std::complex<float> point((float) x / width - 1.5,
-                              (float) y / height - 0.5);
+    std::complex<float> point(
+        static_cast<float>((float) x / width - 1.5),
+        static_cast<float>((float) y / height - 0.5)
+    );
     std::complex<float> z(0, 0);
     int nb_iter = 0;
     while (abs(z) < 2 && nb_iter <= 20) {

@@ -1,12 +1,18 @@
 #include <QApplication>
 #include <QGridLayout>
-#include <memory>
 
+#include "master.h"
 #include "displaymandel.h"
-#include "workerthread.h"
+
+
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+
+
+    int blocs = 16;
+    int workers = 16;
+
 
     int size = 1000;
 
@@ -18,23 +24,15 @@ int main(int argc, char *argv[]) {
     QTime myTimer;
     myTimer.start();
 
+    Master m{colorTab, size};
+    m.start();
 
-    std::unique_ptr<WorkerThread> worker(
-        new WorkerThread{ colorTab, size, size, 0, 0, size, size }
-    );
 
-    worker->start();
-
-    while (!WorkerThread::isFinish) {
-        QThread::sleep(1);
-    }
 
     int nMilliseconds = myTimer.elapsed();
     qDebug() << "Cal in:" << nMilliseconds;
 
     auto *displayMander = new DisplayMandel(colorTab, 0, 0, size, size);
-    // QSize windowsSize(size, size);
-    // displayMander->resize(windowsSize);
     displayMander->setFixedSize(size, size);
     displayMander->show();
 

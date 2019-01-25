@@ -13,15 +13,18 @@ set (
         SOURCE_FILES
 
         main.cpp
+        helpers.h
 
         sem.h
         sem.cpp
-        displaymandel.h
-        displaymandel.cpp
-        workerthread.h
-        workerthread.cpp
         workerbase.h
         workerbase.cpp
+        master.h
+        master.cpp
+        workerthread.h
+        workerthread.cpp
+        displaymandel.h
+        displaymandel.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
