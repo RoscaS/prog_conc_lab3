@@ -3,31 +3,24 @@
 #include <vector>
 #include "master.h"
 
-Master::Master(QColor **colorTab, int size) : colorTab(colorTab), size(size) {
-
+Master::Master(QColor **colorTab, int size, int blocks, int workers)
+    : colorTab(colorTab), size(size), blocks(blocks), workers(workers) {
+    split();
+    start();
 }
 
 void Master::start() {
     std::vector<std::unique_ptr<WorkerThread>> workerTab;
 
-    int h = 0;
-    int w = 0;
-    int blocs = 16;
 
-    for (int i = 0; i < blocs; i++) {
-
-        if (w == size) {
-            h += 250;
-            w = 0;
-        }
-
+    for (const auto &job : jobs) {
         workerTab.push_back(
             std::make_unique<WorkerThread>(
-                colorTab, size, size, w, h, w + 250, h + 250
+                colorTab, size, size,
+                job.start_w, job.start_h,
+                job.end_w, job.end_h
             )
         );
-
-        w += 250;
     }
 
     for (const auto &worker : workerTab) {
@@ -37,5 +30,15 @@ void Master::start() {
         worker->join();
     }
 }
+
+void Master::split() {
+    int side = size / blocks;
+    for (int i = 0; i < size; i += side) {
+        for (int j = 0; j < size; j += side) {
+            jobs.push_back({i, i + side, j, j + side});
+        }
+    }
+}
+
 
 

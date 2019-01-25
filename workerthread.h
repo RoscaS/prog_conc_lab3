@@ -1,9 +1,9 @@
 #pragma once
 
-#include "workerbase.h"
 #include <QColor>
 #include <QPoint>
 #include <complex>
+#include "workerbase.h"
 
 class WorkerThread : public WorkerBase {
 
@@ -17,6 +17,8 @@ public:
     static bool isFinish;
 private:
     QColor **colorTab;
+
+
     int width;
     int height;
 

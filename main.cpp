@@ -6,27 +6,28 @@
 
 
 
+
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
 
-    int blocs = 16;
+    int blocks = 4;
     int workers = 16;
 
+    const int size = (1000 / blocks) * blocks;
 
-    int size = 1000;
 
     QColor *colorTab[size];
-    for (int i = 0; i < size; i++) {
-        colorTab[i] = new QColor[size];
+
+    for (auto &i : colorTab) {
+        i = new QColor[size];
     }
+
 
     QTime myTimer;
     myTimer.start();
 
-    Master m{colorTab, size};
-    m.start();
-
+    Master m{colorTab, size, blocks, workers};
 
 
     int nMilliseconds = myTimer.elapsed();
@@ -35,6 +36,12 @@ int main(int argc, char *argv[]) {
     auto *displayMander = new DisplayMandel(colorTab, 0, 0, size, size);
     displayMander->setFixedSize(size, size);
     displayMander->show();
+
+
+
+    for (auto &i : colorTab) {
+        delete [] i;
+    }
 
     return app.exec();
 }
