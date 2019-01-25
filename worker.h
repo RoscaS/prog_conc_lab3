@@ -3,29 +3,26 @@
 #include <QColor>
 #include <QPoint>
 #include <complex>
-#include "workerbase.h"
+#include <memory>
+#include <utility>
 
-class WorkerThread : public WorkerBase {
+#include "workerbase.h"
+#include "job.h"
+
+
+class Worker : public WorkerBase {
 
 public:
-    WorkerThread(QColor **, int, int, int, int, int, int);
+    Worker(QColor **, std::shared_ptr<Job>, int, int);
 
     int value(int x, int y);
-
     void internalThread() override;
 
-    static bool isFinish;
 private:
     QColor **colorTab;
-
+    std::shared_ptr<Job> job;
 
     int width;
     int height;
 
-    int widthStart;
-    int widthEnd;
-
-    int heightStart;
-    int heightEnd;
 };
-

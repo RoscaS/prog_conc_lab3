@@ -1,14 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <unistd.h>
 #include <vector>
-#include "workerthread.h"
+#include <queue>
+#include "worker.h"
 #include "helpers.h"
+#include "job.h"
 
-struct Job {
-    int start_w, end_w, start_h, end_h;
-};
 
 class Master {
 public:
@@ -16,13 +14,15 @@ public:
     void start();
     void split();
 
-private:
+    static Sem mutex;
+    static Sem barrier;
 
+private:
     int size;
     int blocks;
     int workers;
     QColor **colorTab;
-    std::vector<Job> jobs;
 
+    std::queue<std::shared_ptr<Job>> todo;
+    std::vector<Worker*> workerTab;
 };
-

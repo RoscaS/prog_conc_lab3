@@ -1,10 +1,16 @@
 #pragma once
+
 #include <semaphore.h>
 
 class Sem {
 
 public:
-    Sem(unsigned int value);
+
+    Sem();
+    explicit Sem(int);
+
+    void init(unsigned int);
+
     void wait();
     void post();
 

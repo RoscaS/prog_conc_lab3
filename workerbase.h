@@ -4,15 +4,17 @@
 #include <pthread.h>
 #include "sem.h"
 
-
 class WorkerBase {
 
 public:
     WorkerBase();
     virtual ~WorkerBase();
-
     bool start();
     void join();
+
+    // mutexes
+    static Sem mutexCreateWorker;
+    static Sem mutexDeleteWorker;
 
 protected:
     virtual void internalThread() = 0;
@@ -32,5 +34,4 @@ private:
     static unsigned int total;
     static unsigned int current_count;
 };
-
 

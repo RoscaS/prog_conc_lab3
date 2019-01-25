@@ -15,14 +15,17 @@ set (
         main.cpp
         helpers.h
 
+        job.h
+        job.cpp
+
         sem.h
         sem.cpp
         workerbase.h
         workerbase.cpp
         master.h
         master.cpp
-        workerthread.h
-        workerthread.cpp
+        worker.h
+        worker.cpp
         displaymandel.h
         displaymandel.cpp
 )

@@ -1,20 +1,27 @@
 #include "workerbase.h"
+#include "helpers.h"
 
-bool WorkerBase::debug = true;
+Sem WorkerBase::mutexCreateWorker{1};
+Sem WorkerBase::mutexDeleteWorker{1};
+
+bool WorkerBase::debug = false;
 unsigned int WorkerBase::current_count = 0;
 unsigned int WorkerBase::total = 0;
 
 
-
 WorkerBase::WorkerBase() {
+    WorkerBase::mutexCreateWorker.wait();
     WorkerBase::total++;
     WorkerBase::current_count++;
-    WorkerBase::printCounter();
     id = WorkerBase::total;
+    WorkerBase::mutexCreateWorker.post();
+    WorkerBase::printCounter();
 };
 
 WorkerBase::~WorkerBase() {
+    WorkerBase::mutexDeleteWorker.wait();
     WorkerBase::current_count--;
+    WorkerBase::mutexDeleteWorker.post();
     WorkerBase::printCounter();
 }
 
