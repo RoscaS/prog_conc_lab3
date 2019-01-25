@@ -11,7 +11,6 @@ int main(int argc, char *argv[]) {
 
     auto blocks = static_cast<unsigned int>(atoi(argv[1]));
     auto workers = static_cast<unsigned int>(atoi(argv[2]));
-
     const int size = (1000 / blocks) * blocks;
 
     // Tests::serialize();
