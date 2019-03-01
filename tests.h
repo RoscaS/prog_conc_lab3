@@ -3,7 +3,6 @@
 #include <QtCore/QTime>
 #include <QApplication>
 #include <iostream>
-
 #include "master.h"
 
 
@@ -33,8 +32,6 @@ public:
         for (auto &i : colorTab) {
             delete[] i;
         }
-
-
         return t;
     }
 
